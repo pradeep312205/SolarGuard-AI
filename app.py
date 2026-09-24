@@ -2,10 +2,6 @@ from flask import Flask, render_template, request, jsonify
 import joblib
 import pandas as pd
 import json
-import matplotlib
-matplotlib.use("Agg")
-
-import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -22,6 +18,7 @@ def home():
     return render_template("index.html")
 
 
+# Solar energy prediction
 @app.route("/predict", methods=["POST"])
 def predict():
 
@@ -43,6 +40,7 @@ def predict():
     })
 
 
+# Maintenance chatbot
 @app.route("/chat", methods=["POST"])
 def chat():
 
@@ -68,7 +66,7 @@ def chat():
         if best_match:
             break
 
-    # Use general maintenance guidance if no specific match
+    # General maintenance guidance
     if best_match is None:
         best_match = maintenance_data["general"]
 
@@ -80,42 +78,15 @@ def chat():
     return jsonify({
         "answer": response
     })
+
+
+# Solar analytics chart
 @app.route("/chart")
 def chart():
-    try:
-        data = pd.read_csv("data/solar_data.csv")
-
-        features = [
-            "temperature",
-            "humidity",
-            "irradiance",
-            "cloud_cover",
-            "wind_speed",
-            "panel_temperature"
-        ]
-
-        actual = data["energy_output"]
-        predicted = model.predict(data[features])
-
-        plt.figure(figsize=(10, 5))
-        plt.plot(actual.values, label="Actual Energy")
-        plt.plot(predicted, label="Predicted Energy")
-        plt.xlabel("Sample")
-        plt.ylabel("Energy Output (kWh)")
-        plt.title("Actual vs Predicted Solar Energy")
-        plt.legend()
-        plt.tight_layout()
-
-        plt.savefig("static/energy_chart.png")
-        plt.close()
-
-        return render_template(
-            "chart.html",
-            chart_image="energy_chart.png"
-        )
-
-    except Exception as e:
-        return f"Chart Error: {str(e)}", 500
+    return render_template(
+        "chart.html",
+        chart_image="energy_chart.png"
+    )
 
 
 if __name__ == "__main__":
