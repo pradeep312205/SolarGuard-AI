@@ -66,7 +66,7 @@ def chat():
         if best_match:
             break
 
-    # General maintenance guidance
+    # Use general maintenance guidance if no specific match
     if best_match is None:
         best_match = maintenance_data["general"]
 
@@ -80,9 +80,9 @@ def chat():
     })
 
 
-# Solar analytics chart
-@app.route("/chart")
-def chart():
+# Solar analytics page
+@app.route("/analytics")
+def analytics():
     return render_template(
         "chart.html",
         chart_image="energy_chart.png"
