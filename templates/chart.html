@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Solar Energy Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Solar Energy Analysis</h1>
+
+        <div class="card">
+
+            <h2>Actual vs Predicted Energy</h2>
+
+            <img
+                src="{{ url_for('static', filename=chart_image) }}"
+                alt="Solar Energy Prediction Chart"
+                style="width:100%;"
+            >
+
+        </div>
+
+        <a href="/">
+            <button>Back to Dashboard</button>
+        </a>
+
+    </div>
+
+</body>
+
+</html>

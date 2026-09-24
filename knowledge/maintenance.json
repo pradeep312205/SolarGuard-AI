@@ -1,0 +1,96 @@
+{
+    "low_output": {
+        "keywords": [
+            "low output",
+            "low power",
+            "low generation",
+            "low energy",
+            "less power",
+            "poor output"
+        ],
+        "title": "Low Solar Output",
+        "steps": [
+            "Check the current weather and solar irradiance conditions.",
+            "Inspect the panel surface for dust, dirt, shading, or visible obstruction.",
+            "Check the inverter display for warnings or fault indicators.",
+            "Compare the current energy generation with the expected generation.",
+            "Inspect relevant cables and connections according to the approved site procedure.",
+            "Record the findings and escalate electrical faults to qualified personnel."
+        ]
+    },
+
+    "dirty_panel": {
+        "keywords": [
+            "dirty panel",
+            "clean panel",
+            "dust",
+            "dirt",
+            "cleaning"
+        ],
+        "title": "Solar Panel Cleaning",
+        "steps": [
+            "Follow the site's safety and isolation procedure.",
+            "Inspect the panel surface for dust, dirt, bird droppings, or other contamination.",
+            "Use the approved cleaning method and materials recommended by the manufacturer.",
+            "Clean the panel surface carefully.",
+            "Inspect the panel again after cleaning.",
+            "Record the maintenance activity."
+        ]
+    },
+
+    "inverter": {
+        "keywords": [
+            "inverter",
+            "inverter error",
+            "inverter warning",
+            "inverter fault"
+        ],
+        "title": "Inverter Inspection",
+        "steps": [
+            "Check the inverter display for error or warning messages.",
+            "Record the displayed error code.",
+            "Check whether the inverter is operating according to the manufacturer's instructions.",
+            "Inspect relevant external connections only according to the approved maintenance procedure.",
+            "Do not open or work inside electrical equipment unless authorized and qualified.",
+            "Escalate unresolved electrical faults to qualified personnel."
+        ]
+    },
+
+    "panel_inspection": {
+        "keywords": [
+            "panel inspection",
+            "inspect panel",
+            "panel damaged",
+            "crack",
+            "broken panel"
+        ],
+        "title": "Solar Panel Inspection",
+        "steps": [
+            "Follow the site's safety procedure before inspection.",
+            "Visually inspect the panel for cracks or physical damage.",
+            "Check for shading or obstructions.",
+            "Look for signs of overheating or other visible abnormalities.",
+            "Record the panel location and observed condition.",
+            "Report significant damage according to the site's maintenance procedure."
+        ]
+    },
+
+    "general": {
+        "keywords": [
+            "maintenance",
+            "check",
+            "problem",
+            "issue",
+            "help"
+        ],
+        "title": "General Solar Maintenance",
+        "steps": [
+            "Check the current weather and operating conditions.",
+            "Inspect the solar panels for visible dirt, shading, or damage.",
+            "Check the inverter status and displayed warnings.",
+            "Review the system's recent energy production.",
+            "Record any abnormal observations.",
+            "Follow the manufacturer's and site's approved maintenance procedures."
+        ]
+    }
+}

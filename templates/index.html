@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SolarGuard AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>SolarGuard AI</h1>
+
+        <p class="subtitle">
+            Solar Energy Forecasting System
+        </p>
+
+        <div class="card">
+
+            <h2>Enter Weather Parameters</h2>
+
+            <label>Temperature (°C)</label>
+            <input type="number" id="temperature" value="30">
+
+            <label>Humidity (%)</label>
+            <input type="number" id="humidity" value="60">
+
+            <label>Solar Irradiance (W/m²)</label>
+            <input type="number" id="irradiance" value="800">
+
+            <label>Cloud Cover (%)</label>
+            <input type="number" id="cloud_cover" value="15">
+
+            <label>Wind Speed (m/s)</label>
+            <input type="number" id="wind_speed" value="4">
+
+            <label>Panel Temperature (°C)</label>
+            <input type="number" id="panel_temperature" value="40">
+
+            <button onclick="predictEnergy()">
+                Predict Energy
+            </button>
+
+            <div id="result"></div>
+
+        </div>
+
+    </div>
+    <div class="card chatbot-card">
+
+    <h2>Technician Maintenance Assistant</h2>
+
+    <p>
+        Ask a question about solar panel maintenance.
+    </p>
+
+    <textarea
+        id="chatQuestion"
+        placeholder="Example: Why is my solar output low?"
+    ></textarea>
+
+    <button onclick="askAssistant()">
+        Ask Assistant
+    </button>
+
+    <div id="chatResponse"></div>
+
+</div>
+<a href="/chart">
+    <button>View Prediction Analysis</button>
+</a>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
