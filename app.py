@@ -82,40 +82,40 @@ def chat():
     })
 @app.route("/chart")
 def chart():
+    try:
+        data = pd.read_csv("data/solar_data.csv")
 
-    data = pd.read_csv("data/solar_data.csv")
+        features = [
+            "temperature",
+            "humidity",
+            "irradiance",
+            "cloud_cover",
+            "wind_speed",
+            "panel_temperature"
+        ]
 
-    features = [
-        "temperature",
-        "humidity",
-        "irradiance",
-        "cloud_cover",
-        "wind_speed",
-        "panel_temperature"
-    ]
+        actual = data["energy_output"]
+        predicted = model.predict(data[features])
 
-    actual = data["energy_output"]
-    predicted = model.predict(data[features])
+        plt.figure(figsize=(10, 5))
+        plt.plot(actual.values, label="Actual Energy")
+        plt.plot(predicted, label="Predicted Energy")
+        plt.xlabel("Sample")
+        plt.ylabel("Energy Output (kWh)")
+        plt.title("Actual vs Predicted Solar Energy")
+        plt.legend()
+        plt.tight_layout()
 
-    plt.figure(figsize=(10, 5))
+        plt.savefig("static/energy_chart.png")
+        plt.close()
 
-    plt.plot(actual.values, label="Actual Energy")
-    plt.plot(predicted, label="Predicted Energy")
+        return render_template(
+            "chart.html",
+            chart_image="energy_chart.png"
+        )
 
-    plt.xlabel("Sample")
-    plt.ylabel("Energy Output (kWh)")
-    plt.title("Actual vs Predicted Solar Energy")
-
-    plt.legend()
-    plt.tight_layout()
-
-    plt.savefig("static/energy_chart.png")
-    plt.close()
-
-    return render_template(
-        "chart.html",
-        chart_image="energy_chart.png"
-    )
+    except Exception as e:
+        return f"Chart Error: {str(e)}", 500
 
 
 if __name__ == "__main__":
