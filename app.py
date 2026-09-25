@@ -18,7 +18,7 @@ def home():
     return render_template("index.html")
 
 
-# Solar energy prediction
+# Solar energy prediction + maintenance connection
 @app.route("/predict", methods=["POST"])
 def predict():
 
@@ -33,10 +33,48 @@ def predict():
         "panel_temperature": [float(data["panel_temperature"])]
     })
 
-    prediction = model.predict(input_data)[0]
+    # Predict solar energy output
+    prediction = float(model.predict(input_data)[0])
+    prediction = round(prediction, 2)
+
+    # Determine maintenance requirement
+    # This threshold is used for the project prototype.
+    LOW_OUTPUT_THRESHOLD = 10.0
+
+    if prediction < LOW_OUTPUT_THRESHOLD:
+
+        maintenance_status = "Maintenance Attention Recommended"
+
+        maintenance_item = maintenance_data.get(
+            "low_output",
+            maintenance_data["general"]
+        )
+
+        maintenance_title = maintenance_item["title"]
+
+        maintenance_steps = maintenance_item["steps"]
+
+    else:
+
+        maintenance_status = "Normal Output"
+
+        maintenance_item = maintenance_data.get(
+            "general",
+            {}
+        )
+
+        maintenance_title = "Routine Maintenance"
+
+        maintenance_steps = maintenance_item.get(
+            "steps",
+            []
+        )
 
     return jsonify({
-        "predicted_energy": round(float(prediction), 2)
+        "predicted_energy": prediction,
+        "maintenance_status": maintenance_status,
+        "maintenance_title": maintenance_title,
+        "maintenance_steps": maintenance_steps
     })
 
 

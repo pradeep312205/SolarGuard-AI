@@ -1,13 +1,15 @@
 async function predictEnergy() {
 
-    const data = {
-        temperature: document.getElementById("temperature").value,
-        humidity: document.getElementById("humidity").value,
-        irradiance: document.getElementById("irradiance").value,
-        cloud_cover: document.getElementById("cloud_cover").value,
-        wind_speed: document.getElementById("wind_speed").value,
-        panel_temperature: document.getElementById("panel_temperature").value
-    };
+    const temperature = document.getElementById("temperature").value;
+    const humidity = document.getElementById("humidity").value;
+    const irradiance = document.getElementById("irradiance").value;
+    const cloudCover = document.getElementById("cloud_cover").value;
+    const windSpeed = document.getElementById("wind_speed").value;
+    const panelTemperature = document.getElementById("panel_temperature").value;
+
+    const result = document.getElementById("result");
+
+    result.innerHTML = "Predicting...";
 
     try {
 
@@ -16,61 +18,99 @@ async function predictEnergy() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                temperature: temperature,
+                humidity: humidity,
+                irradiance: irradiance,
+                cloud_cover: cloudCover,
+                wind_speed: windSpeed,
+                panel_temperature: panelTemperature
+            })
         });
 
-        const result = await response.json();
+        const data = await response.json();
 
-        document.getElementById("result").innerHTML =
-            "Predicted Energy Output: " +
-            result.predicted_energy +
-            " kWh";
+        let maintenanceHTML = "";
+
+        if (data.maintenance_steps && data.maintenance_steps.length > 0) {
+
+            maintenanceHTML = `
+                <h3>${data.maintenance_title}</h3>
+                <ol>
+                    ${data.maintenance_steps.map(step => `<li>${step}</li>`).join("")}
+                </ol>
+            `;
+        }
+
+        result.innerHTML = `
+            <h2>Prediction Result</h2>
+
+            <p>
+                <strong>Predicted Energy Output:</strong>
+                ${data.predicted_energy} kWh
+            </p>
+
+            <p>
+                <strong>Maintenance Status:</strong>
+                ${data.maintenance_status}
+            </p>
+
+            <div class="maintenance-result">
+                ${maintenanceHTML}
+            </div>
+        `;
 
     } catch (error) {
 
-        document.getElementById("result").innerHTML =
-            "Error making prediction.";
-
         console.error(error);
+
+        result.innerHTML = `
+            <p>
+                Unable to get prediction. Please try again.
+            </p>
+        `;
     }
 }
+
+
 async function askAssistant() {
 
-    const question = document.getElementById("chatQuestion").value;
+    const question = document.getElementById("question").value;
+
+    const chatResult = document.getElementById("chatResult");
 
     if (!question.trim()) {
 
-        document.getElementById("chatResponse").innerText =
-            "Please enter a question.";
+        chatResult.innerHTML =
+            "Please enter a maintenance question.";
 
         return;
     }
 
+    chatResult.innerHTML = "Assistant is processing...";
+
     try {
 
         const response = await fetch("/chat", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
                 question: question
             })
         });
 
-        const result = await response.json();
+        const data = await response.json();
 
-        document.getElementById("chatResponse").innerText =
-            result.answer;
+        chatResult.innerHTML =
+            `<pre>${data.answer}</pre>`;
 
     } catch (error) {
 
-        document.getElementById("chatResponse").innerText =
-            "Unable to connect to the maintenance assistant.";
-
         console.error(error);
+
+        chatResult.innerHTML =
+            "Unable to connect to the maintenance assistant.";
     }
 }
