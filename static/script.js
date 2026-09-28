@@ -75,9 +75,9 @@ async function predictEnergy() {
 
 async function askAssistant() {
 
-    const question = document.getElementById("question").value;
+    const question = document.getElementById("chatQuestion").value;
 
-    const chatResult = document.getElementById("chatResult");
+    const chatResult = document.getElementById("chatResponse");
 
     if (!question.trim()) {
 
