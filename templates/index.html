@@ -51,29 +51,72 @@
         </div>
 
     </div>
+
+
+    <!-- Technician Maintenance Assistant -->
+
     <div class="card chatbot-card">
 
-    <h2>Technician Maintenance Assistant</h2>
+        <h2>Technician Maintenance Assistant</h2>
 
-    <p>
-        Ask a question about solar panel maintenance.
-    </p>
+        <p>
+            Ask a question about solar panel maintenance.
+        </p>
 
-    <textarea
-        id="chatQuestion"
-        placeholder="Example: Why is my solar output low?"
-    ></textarea>
+        <textarea
+            id="chatQuestion"
+            placeholder="Example: Why is my solar output low?"
+        ></textarea>
 
-    <button onclick="askAssistant()">
-        Ask Assistant
-    </button>
+        <button onclick="askAssistant()">
+            Ask Assistant
+        </button>
 
-    <div id="chatResponse"></div>
+        <div id="chatResponse"></div>
 
-</div>
-<a href="/analytics">
-    <button>View Prediction Analysis</button>
-</a>
+    </div>
+
+
+    <!-- Day 11: Maintenance Scheduling -->
+
+    <div class="card scheduling-card">
+
+        <h2>Maintenance Scheduling</h2>
+
+        <p>
+            Schedule a solar panel maintenance activity.
+        </p>
+
+        <label>Maintenance Activity</label>
+
+        <input
+            type="text"
+            id="maintenanceActivity"
+            placeholder="Example: Panel Cleaning"
+        >
+
+        <label>Maintenance Date</label>
+
+        <input
+            type="date"
+            id="maintenanceDate"
+        >
+
+        <button onclick="scheduleMaintenance()">
+            Schedule Maintenance
+        </button>
+
+        <div id="scheduleResponse"></div>
+
+    </div>
+
+
+    <!-- View Prediction Analysis -->
+
+    <a href="/analytics">
+        <button>View Prediction Analysis</button>
+    </a>
+
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 

@@ -114,3 +114,72 @@ async function askAssistant() {
             "Unable to connect to the maintenance assistant.";
     }
 }
+// Day 11 - Maintenance Scheduling
+
+async function scheduleMaintenance() {
+
+    const activity =
+        document.getElementById("maintenanceActivity").value;
+
+    const date =
+        document.getElementById("maintenanceDate").value;
+
+    const scheduleResult =
+        document.getElementById("scheduleResponse");
+
+    if (!activity.trim() || !date) {
+
+        scheduleResult.innerHTML =
+            "Please enter maintenance activity and date.";
+
+        return;
+    }
+
+    scheduleResult.innerHTML =
+        "Scheduling maintenance...";
+
+    try {
+
+        const response = await fetch("/schedule", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                activity: activity,
+                date: date
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            scheduleResult.innerHTML = `
+                <h3>Maintenance Scheduled Successfully</h3>
+
+                <p>
+                    <strong>Activity:</strong>
+                    ${data.activity}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${data.date}
+                </p>
+            `;
+
+        } else {
+
+            scheduleResult.innerHTML =
+                data.message;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        scheduleResult.innerHTML =
+            "Unable to schedule maintenance.";
+    }
+}

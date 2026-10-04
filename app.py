@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import joblib
 import pandas as pd
 import json
+import os
 
 app = Flask(__name__)
 
@@ -13,12 +14,25 @@ with open("knowledge/maintenance.json", "r") as file:
     maintenance_data = json.load(file)
 
 
+# Load maintenance schedules
+SCHEDULE_FILE = "maintenance_schedule.json"
+
+if os.path.exists(SCHEDULE_FILE):
+    with open(SCHEDULE_FILE, "r") as file:
+        schedules = json.load(file)
+else:
+    schedules = []
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+# ---------------------------------------------------------
 # Solar energy prediction + maintenance connection
+# ---------------------------------------------------------
+
 @app.route("/predict", methods=["POST"])
 def predict():
 
@@ -38,7 +52,6 @@ def predict():
     prediction = round(prediction, 2)
 
     # Determine maintenance requirement
-    # This threshold is used for the project prototype.
     LOW_OUTPUT_THRESHOLD = 10.0
 
     if prediction < LOW_OUTPUT_THRESHOLD:
@@ -51,7 +64,6 @@ def predict():
         )
 
         maintenance_title = maintenance_item["title"]
-
         maintenance_steps = maintenance_item["steps"]
 
     else:
@@ -78,12 +90,15 @@ def predict():
     })
 
 
-# Maintenance chatbot
+# ---------------------------------------------------------
+# Fault Diagnosis + Maintenance Assistant
+# ---------------------------------------------------------
+
 @app.route("/chat", methods=["POST"])
 def chat():
 
     data = request.get_json()
-    question = data.get("question", "").lower()
+    question = data.get("question", "").lower().strip()
 
     if not question:
         return jsonify({
@@ -97,7 +112,7 @@ def chat():
 
         for keyword in item["keywords"]:
 
-            if keyword in question:
+            if keyword.lower() in question:
                 best_match = item
                 break
 
@@ -108,24 +123,92 @@ def chat():
     if best_match is None:
         best_match = maintenance_data["general"]
 
-    response = best_match["title"] + "\n\n"
+    # Fault diagnosis information
+    fault_title = best_match["title"]
+
+    response = f"Fault Diagnosis\n\n"
+    response += f"Identified Issue: {fault_title}\n\n"
+
+    response += "Recommended Maintenance Steps:\n"
 
     for number, step in enumerate(best_match["steps"], start=1):
         response += f"{number}. {step}\n"
 
+    response += "\nSafety Guidance:\n"
+    response += "Follow the site's safety and isolation procedures before performing maintenance."
+
     return jsonify({
-        "answer": response
+        "answer": response,
+        "fault": fault_title,
+        "steps": best_match["steps"]
     })
 
 
+# ---------------------------------------------------------
+# Maintenance Scheduling
+# ---------------------------------------------------------
+
+@app.route("/schedule", methods=["POST"])
+def schedule():
+
+    data = request.get_json()
+
+    activity = data.get("activity", "").strip()
+    date = data.get("date", "").strip()
+
+    if not activity or not date:
+        return jsonify({
+            "success": False,
+            "message": "Please provide both maintenance activity and date."
+        })
+
+    schedule_item = {
+        "activity": activity,
+        "date": date
+    }
+
+    schedules.append(schedule_item)
+
+    # Save schedule permanently
+    with open(SCHEDULE_FILE, "w") as file:
+        json.dump(schedules, file, indent=4)
+
+    return jsonify({
+        "success": True,
+        "message": "Maintenance scheduled successfully.",
+        "activity": activity,
+        "date": date
+    })
+
+
+# ---------------------------------------------------------
+# View Maintenance Schedules
+# ---------------------------------------------------------
+
+@app.route("/schedules", methods=["GET"])
+def get_schedules():
+
+    return jsonify({
+        "schedules": schedules
+    })
+
+
+# ---------------------------------------------------------
 # Solar analytics page
+# ---------------------------------------------------------
+
 @app.route("/analytics")
 def analytics():
+
     return render_template(
         "chart.html",
         chart_image="energy_chart.png"
     )
 
+
+# ---------------------------------------------------------
+# Run application
+# ---------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(debug=True)
