@@ -97,12 +97,31 @@ def predict():
 @app.route("/chat", methods=["POST"])
 def chat():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     question = data.get("question", "").lower().strip()
 
     if not question:
         return jsonify({
             "answer": "Please enter a maintenance question."
+        })
+
+    # Keep the assistant focused on solar-system diagnosis and maintenance.
+    solar_scope_terms = (
+        "solar", "panel", "photovoltaic", "pv array", "solar array",
+        "inverter", "energy output", "power output", "generation",
+        "irradiance", "maintenance", "fault", "troubleshoot",
+        "troubleshooting", "error code", "warning", "cleaning",
+        "dust", "shading", "crack", "damaged panel", "electrical",
+        "electric shock", "wiring", "cable", "safety", "safe",
+    )
+
+    if not any(term in question for term in solar_scope_terms):
+        return jsonify({
+            "answer": (
+                "I can help with solar system fault diagnosis, maintenance "
+                "guidance, troubleshooting steps, and safety recommendations. "
+                "Please ask a question about your solar panels or related equipment."
+            )
         })
 
     best_match = None
@@ -126,7 +145,16 @@ def chat():
     # Fault diagnosis information
     fault_title = best_match["title"]
 
-    response = f"Fault Diagnosis\n\n"
+    if any(term in question for term in ("safety", "safe", "shock", "hazard", "electrical")):
+        assistance_area = "Safety Recommendations"
+    elif any(term in question for term in ("troubleshoot", "troubleshooting", "not working", "error", "warning")):
+        assistance_area = "Troubleshooting Steps"
+    elif any(term in question for term in ("maintenance", "clean", "dust", "inspect", "inspection", "shading")):
+        assistance_area = "Maintenance Guidance"
+    else:
+        assistance_area = "Fault Diagnosis"
+
+    response = f"{assistance_area}\n\n"
     response += f"Identified Issue: {fault_title}\n\n"
 
     response += "Recommended Maintenance Steps:\n"
