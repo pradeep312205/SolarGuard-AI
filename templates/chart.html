@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Solar Energy Analysis</title>
+    <title>SolarGuard AI - Prediction Analysis</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
@@ -17,27 +17,226 @@
 
 <body>
 
-    <div class="container">
 
-        <h1>Solar Energy Analysis</h1>
+    <!-- ================= NAVBAR ================= -->
 
-        <div class="card">
+    <header class="navbar">
 
-            <h2>Actual vs Predicted Energy</h2>
+        <div class="logo">
 
-            <img
-                src="{{ url_for('static', filename=chart_image) }}"
-                alt="Solar Energy Prediction Chart"
-                style="width:100%;"
-            >
+            <div class="logo-icon">
+                ☀️
+            </div>
+
+            <div>
+
+                <div class="logo-text">
+                    Solar<span>Guard</span> <b>AI</b>
+                </div>
+
+                <div class="logo-subtitle">
+                    Predict • Diagnose • Maintain • Protect
+                </div>
+
+            </div>
 
         </div>
 
+
+        <nav aria-label="Main navigation">
+            <a href="/#home">⌂ <span>Home</span></a>
+            <a href="/#prediction">⌁ <span>Predict</span></a>
+            <a href="/#assistant">☏ <span>Assistant</span></a>
+            <a href="/#schedule">▣ <span>Schedule</span></a>
+            <a class="active" href="/analytics">▥ <span>Analytics</span></a>
+            <a href="/#about">ⓘ <span>About</span></a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero analytics-hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                📊 Solar Energy Analytics
+            </div>
+
+            <h1>
+                Prediction
+                <span>Analysis</span>
+            </h1>
+
+            <h2>
+                Understand Your Solar Energy Performance
+            </h2>
+
+            <p>
+                Compare actual and predicted solar energy output
+                using the SolarGuard AI forecasting model.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= ANALYSIS ================= -->
+
+    <main class="main-content">
+
+
+        <section class="dashboard-card chart-card">
+
+
+            <div class="section-header">
+
+                <div class="section-icon blue-icon">
+                    📈
+                </div>
+
+                <div>
+
+                    <h2>
+                        Actual vs Predicted Energy
+                    </h2>
+
+                    <p>
+                        Solar energy forecasting performance
+                        visualization.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <img
+                    src="{{ url_for('static', filename=chart_image) }}"
+                    alt="Solar Energy Prediction Chart"
+                >
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= INFORMATION CARDS ================= -->
+
+        <section class="feature-grid analytics-features" aria-label="Analytics information">
+
+
+            <div class="feature-card analytics-card">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h3>
+                        Energy Forecast
+                    </h3>
+
+                    <p>
+                        View predicted solar energy output
+                        from the machine learning model.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="feature-card fault-card">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <h3>
+                        Model Analysis
+                    </h3>
+
+                    <p>
+                        Compare actual and predicted energy
+                        values using the generated chart.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="feature-card knowledge-card">
+
+                <div class="feature-icon">
+                    ☀️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Solar Insights
+                    </h3>
+
+                    <p>
+                        Use prediction results to support
+                        maintenance decisions.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= BACK BUTTON ================= -->
+
         <a href="/">
-            <button>Back to Dashboard</button>
+
+            <button class="primary-button back-button">
+                ← Back to SolarGuard AI
+            </button>
+
         </a>
 
-    </div>
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="about">
+
+        <div>
+            © 2026 SolarGuard AI&nbsp; | &nbsp;Team Phoenix (32)
+        </div>
+
+        <div>
+            Clean Energy&nbsp; | &nbsp;Sustainable Future&nbsp; | &nbsp;AI for a Greener Tomorrow
+        </div>
+
+    </footer>
+
 
 </body>
 
