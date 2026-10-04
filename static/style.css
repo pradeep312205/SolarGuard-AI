@@ -1,198 +1,182 @@
-/* ---------------------------------------------------------
-   SolarGuard AI - Day 12 UI
---------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-* {
-    box-sizing: border-box;
+:root {
+    color-scheme: light;
+    --ink: #111827;
+    --muted: #52627a;
+    --blue: #1677f9;
+    --green: #08a967;
 }
 
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
-    font-family: Arial, sans-serif;
-    background: #eef3f2;
-    margin: 0;
-    padding: 30px 15px;
-    color: #222;
+    min-height: 100vh;
+    color: var(--ink);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background: #eff5f9 url("/static/solar-hero.jpg") center / cover fixed;
 }
 
-/* Main container */
-
-.container {
-    max-width: 850px;
-    margin: auto;
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    min-height: 68px;
+    padding: 8px max(6%, calc((100vw - 1320px) / 2));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: rgba(255,255,255,.94);
+    border-bottom: 1px solid rgba(210,222,239,.8);
+    box-shadow: 0 4px 18px rgba(26,51,83,.1);
+    backdrop-filter: blur(16px);
 }
-
-/* Main heading */
-
-h1 {
-    text-align: center;
-    margin-bottom: 5px;
-    font-size: 36px;
+.logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.logo-icon { font-size: 34px; line-height: 1; }
+.logo-text { font-size: 21px; line-height: 1.15; font-weight: 800; letter-spacing: -.7px; }
+.logo-text span { color: #111827; }
+.logo-text b { color: #078b68; }
+.logo-subtitle { margin-top: 3px; color: #516078; font-size: 9px; letter-spacing: .15px; }
+nav { display: flex; align-items: center; gap: 5px; }
+nav a {
+    display: flex; align-items: center; gap: 7px;
+    padding: 10px 12px; border-radius: 9px;
+    text-decoration: none; color: #263449; font-size: 12px; font-weight: 500;
+    transition: background .18s ease, color .18s ease, transform .18s ease;
 }
+nav a:hover, nav a.active { color: #1265e8; background: #dce9ff; }
+nav a:hover { transform: translateY(-1px); }
 
-.subtitle {
-    text-align: center;
-    color: #666;
-    margin-bottom: 30px;
-    font-size: 17px;
+.hero {
+    position: relative;
+    min-height: 278px;
+    display: flex;
+    align-items: flex-start;
+    background: url("/static/solar-hero.jpg") center 47% / cover no-repeat;
 }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg,rgba(255,250,239,.78) 0%,rgba(255,255,255,.44) 46%,rgba(6,29,54,.04) 100%); }
+.hero-content { position: relative; z-index: 1; width: min(1320px,100%); margin: 0 auto; padding: 24px 6% 56px; }
+.badge { display: inline-flex; align-items: center; margin-bottom: 12px; padding: 6px 12px; border-radius: 30px; color: #087443; background: rgba(205,245,219,.88); font-size: 11px; font-weight: 600; }
+.hero h1 { margin-bottom: 2px; font-size: clamp(38px,5vw,55px); line-height: 1.08; letter-spacing: -2px; font-weight: 800; }
+.hero h1 span { color: #1677ed; }
+.hero h1 b { color: #079765; }
+.hero h2 { margin-bottom: 7px; font-size: 16px; font-weight: 700; }
+.hero p { max-width: 490px; color: #1d2c43; font-size: 13px; line-height: 1.5; }
 
-/* Cards */
-
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    margin-bottom: 30px;
+.main-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    width: min(1320px,100%); margin: -38px auto 0; padding: 0 6% 24px;
 }
-
-.card h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
+.dashboard-grid { display: grid; grid-template-columns: 1.02fr 1fr; align-items: stretch; gap: 12px; }
+.dashboard-card {
+    min-width: 0; padding: 18px; border: 1px solid rgba(255,255,255,.82); border-radius: 19px;
+    background: rgba(255,255,255,.88); box-shadow: 0 12px 32px rgba(10,31,57,.2);
+    backdrop-filter: blur(16px);
 }
-
-/* Labels */
-
-label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 6px;
-    font-weight: bold;
+.assistant-card { background: rgba(234,255,249,.91); }
+.section-header { display: flex; align-items: center; gap: 11px; margin-bottom: 13px; }
+.section-icon { width: 37px; height: 37px; flex: 0 0 37px; display: grid; place-items: center; border-radius: 10px; font-size: 20px; }
+.blue-icon { color: #1677f9; background: #d7e9ff; }
+.green-icon { color: #079b66; background: #ccf3df; }
+.orange-icon { color: #ef8800; background: #ffefd2; }
+.dashboard-card h2 { margin-bottom: 3px; font-size: 16px; line-height: 1.25; }
+.dashboard-card .section-header p { color: #46566d; font-size: 10px; line-height: 1.4; }
+.input-grid, .schedule-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px 14px; }
+.input-group { min-width: 0; }
+.input-group label { display: block; margin-bottom: 4px; color: #27364d; font-size: 10px; font-weight: 600; }
+input, textarea {
+    width: 100%; min-width: 0; padding: 9px 11px; border: 1px solid #d7e0eb; border-radius: 8px;
+    color: #172033; background: rgba(255,255,255,.91); font: inherit; font-size: 11px;
+    transition: border-color .2s, box-shadow .2s;
 }
-
-/* Inputs */
-
-input,
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    font-family: Arial, sans-serif;
-    font-size: 15px;
+input:focus, textarea:focus { outline: none; border-color: #1689ff; box-shadow: 0 0 0 3px rgba(22,137,255,.12); }
+input::placeholder, textarea::placeholder { color: #8798af; }
+.primary-button, .assistant-button, .schedule-button {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: 0; border-radius: 8px; color: #fff; font: inherit; font-size: 11px; font-weight: 700;
+    cursor: pointer; transition: transform .2s, filter .2s, box-shadow .2s;
 }
+.primary-button { width: 100%; margin-top: 12px; padding: 9px 12px; background: linear-gradient(105deg,#159fff,#075fee); box-shadow: 0 5px 14px rgba(18,101,232,.22); }
+.primary-button:hover, .assistant-button:hover, .schedule-button:hover { transform: translateY(-2px); filter: brightness(1.04); }
+.assistant-box { display: flex; flex-direction: column; min-height: 0; padding: 10px; border-radius: 12px; background: rgba(255,255,255,.55); }
+.assistant-message { display: flex; gap: 10px; flex: 1; padding: 11px; border-radius: 10px; background: rgba(255,255,255,.72); }
+.bot-icon { width: 31px; height: 31px; flex: 0 0 31px; display: grid; place-items: center; border-radius: 9px; background: #dceaff; font-size: 18px; }
+.assistant-copy { padding: 5px 8px; border-radius: 9px; background: #e4efff; font-size: 10px; line-height: 1.5; }
+.assistant-copy strong { font-size: 10px; }
+.assistant-copy p { margin: 4px 0 2px; }
+.assistant-copy ul { padding-left: 15px; }
+#chatQuestion { min-height: 34px; height: 34px; margin-top: 9px; resize: vertical; }
+.assistant-button { align-self: flex-end; width: 34px; height: 34px; margin-top: -34px; position: relative; margin-right: 1px; border-radius: 8px; background: linear-gradient(135deg,#14bf83,#00a66e); font-size: 16px; }
+#chatQuestion { padding-right: 45px; }
+#result, #chatResponse, #scheduleResponse { display: none; margin-top: 12px; padding: 12px; border-radius: 11px; line-height: 1.55; font-size: 12px; }
+#result:not(:empty), #chatResponse:not(:empty), #scheduleResponse:not(:empty) { display: block; }
+#result { background: #eff8ff; border: 1px solid #d5ecff; }
+#result h2 { color: #1265e8; }
+.maintenance-result { margin-top: 10px; padding: 10px; border-radius: 9px; background: #f0fdf4; border: 1px solid #d1fae5; }
+.maintenance-result li { margin: 5px 0 0 18px; }
+#chatResponse { background: #fff; }
+#chatResponse pre { white-space: pre-wrap; font: inherit; }
+.schedule-card { order: 3; margin-top: 14px; background: rgba(255,255,255,.94); }
+.schedule-card .section-header { margin-bottom: 14px; }
+.schedule-button { width: auto; margin-top: 14px; padding: 10px 16px; background: linear-gradient(135deg,#f59e0b,#ea580c); }
+#scheduleResponse { background: #fff8eb; border: 1px solid #fed7aa; }
 
-input:focus,
-textarea:focus {
-    outline: none;
-    border-color: #555;
+.feature-grid { order: 2; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; margin-top: 10px; }
+.feature-card {
+    position: relative; min-width: 0; min-height: 70px; display: flex; align-items: center; gap: 10px;
+    padding: 11px 28px 11px 11px; border: 1px solid rgba(255,255,255,.85); border-radius: 13px;
+    color: #172033; text-decoration: none; background: rgba(255,255,255,.94);
+    box-shadow: 0 8px 20px rgba(10,31,57,.17); transition: transform .2s, box-shadow .2s;
 }
+.feature-card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(10,31,57,.22); }
+.feature-icon { width: 34px; height: 34px; flex: 0 0 34px; display: grid; place-items: center; border-radius: 9px; background: #d9f7e5; font-size: 18px; }
+.feature-card h3 { margin-bottom: 3px; font-size: 11px; line-height: 1.2; }
+.feature-card p { color: #52627a; font-size: 9px; line-height: 1.35; }
+.schedule-feature .feature-icon { background: #dceafe; }
+.fault-card .feature-icon { background: #ffedce; }
+.knowledge-card .feature-icon { background: #efe0ff; }
+.arrow { position: absolute; right: 9px; bottom: 9px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; color: white; background: #55c77a; font-size: 13px; font-weight: 700; }
+.schedule-feature .arrow { background: #5591ed; }
+.fault-card .arrow { background: #ff9d0a; }
+.knowledge-card .arrow { background: #b779e8; }
+footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 6%; color: #e4edf7; background: rgba(5,16,30,.96); font-size: 9px; }
 
-/* Textarea */
-
-textarea {
-    height: 110px;
-    resize: vertical;
+@media (min-width: 1100px) {
+    .main-content { padding-right: 6%; padding-left: 6%; }
+    .dashboard-card { padding: 18px; }
 }
-
-/* Buttons */
-
-button {
-    width: 100%;
-    margin-top: 22px;
-    padding: 13px;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 16px;
-    background: #e9e9e9;
-    color: #111;
-    transition: 0.2s;
+@media (max-width: 850px) {
+    .navbar { flex-wrap: wrap; justify-content: center; padding: 10px 4%; }
+    nav { justify-content: center; flex-wrap: wrap; }
+    nav a { padding: 8px 10px; }
+    .hero-content { padding-left: 5%; padding-right: 5%; }
+    .main-content { padding-right: 4%; padding-left: 4%; }
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .assistant-box { min-height: 170px; }
 }
-
-button:hover {
-    background: #dcdcdc;
-}
-
-/* Prediction result */
-
-#result {
-    margin-top: 25px;
-    padding: 20px;
-    background: #f7f7f7;
-    border-radius: 10px;
-    line-height: 1.6;
-}
-
-#result h2 {
-    margin-top: 0;
-}
-
-/* Maintenance result */
-
-.maintenance-result {
-    margin-top: 15px;
-    padding: 15px;
-    background: #eeeeee;
-    border-radius: 8px;
-}
-
-.maintenance-result ol {
-    padding-left: 25px;
-}
-
-.maintenance-result li {
-    margin-bottom: 8px;
-}
-
-/* Chatbot */
-
-.chatbot-card {
-    max-width: 850px;
-    margin: 30px auto;
-}
-
-#chatResponse {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f5f5f5;
-    border-radius: 10px;
-    white-space: pre-line;
-    line-height: 1.7;
-    min-height: 50px;
-}
-
-/* Scheduling */
-
-.scheduling-card {
-    max-width: 850px;
-    margin: 30px auto;
-}
-
-#scheduleResponse {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f5f5f5;
-    border-radius: 8px;
-    line-height: 1.6;
-}
-
-/* Prediction analysis button */
-
-a {
-    display: block;
-    max-width: 850px;
-    margin: 0 auto 30px auto;
-    text-decoration: none;
-}
-
-/* Mobile responsive design */
-
-@media (max-width: 600px) {
-
-    body {
-        padding: 20px 10px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    .card {
-        padding: 20px;
-    }
-
-    button {
-        font-size: 15px;
-    }
+@media (max-width: 520px) {
+    .navbar { gap: 9px; }
+    .logo { margin-right: auto; }
+    nav { width: 100%; gap: 2px; }
+    nav a { padding: 7px 8px; font-size: 10px; }
+    .hero { min-height: 290px; background-position: 58% center; }
+    .hero-overlay { background: linear-gradient(90deg,rgba(255,250,239,.9),rgba(255,255,255,.64)); }
+    .hero-content { padding-top: 24px; padding-bottom: 55px; }
+    .hero h1 { font-size: 42px; }
+    .hero h2 { max-width: 300px; font-size: 15px; }
+    .hero p { max-width: 340px; font-size: 12px; }
+    .main-content { margin-top: -30px; padding-right: 13px; padding-left: 13px; }
+    .dashboard-card { padding: 15px; border-radius: 16px; }
+    .dashboard-card h2 { font-size: 15px; }
+    .input-grid, .schedule-grid { gap: 10px; }
+    .input-group label { font-size: 9px; }
+    input { padding: 9px; font-size: 11px; }
+    .feature-grid { gap: 8px; }
+    .feature-card { min-height: 74px; padding: 9px 25px 9px 9px; gap: 8px; }
+    .feature-card h3 { font-size: 10px; }
+    .feature-card p { font-size: 8px; }
+    footer { flex-direction: column; text-align: center; padding: 13px; }
 }
